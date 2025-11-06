@@ -1,10 +1,12 @@
 package com.team4.easybook.domain.book.application.service
 
+import com.team4.easybook.domain.book.client.dto.request.RegisterBookContentRequest
 import com.team4.easybook.domain.book.client.dto.request.RegisterBookRequest
 import com.team4.easybook.domain.book.client.dto.request.UpdateProgressRequest
 import com.team4.easybook.domain.book.client.dto.response.BookContentResponse
 import com.team4.easybook.domain.book.client.dto.response.BookDetailResponse
 import com.team4.easybook.domain.book.client.dto.response.BookListResponse
+import com.team4.easybook.domain.book.domain.entity.BookContentEntity
 import com.team4.easybook.domain.book.domain.entity.BookEntity
 import com.team4.easybook.domain.book.domain.entity.BookProgressEntity
 import com.team4.easybook.domain.book.domain.repository.BookContentJpaRepository
@@ -27,6 +29,21 @@ class BookService(
                 title = request.title,
                 author = request.author,
                 totalPages = request.totalPages,
+            )
+        )
+    }
+
+    @Transactional
+    fun registerBookContent(request: RegisterBookContentRequest) {
+        val book = bookJpaRepository.findByIdOrNull(request.bookId)
+            ?: throw IllegalArgumentException("찾을 수 없는 책입니다.")
+
+        bookContentJpaRepository.save(
+            BookContentEntity(
+                bookId = request.bookId,
+                page = request.page,
+                readingLevel = request.readingLevel,
+                content = request.content
             )
         )
     }
@@ -57,7 +74,7 @@ class BookService(
     }
 
     @Transactional(readOnly = true)
-    fun getBookById(bookId: Long, userId: Long): BookDetailResponse {
+    fun getBookById(bookId: Long): BookDetailResponse {
         val book = bookJpaRepository.findByIdOrNull(bookId)
             ?: throw IllegalArgumentException("찾을 수 없는 책입니다.")
 

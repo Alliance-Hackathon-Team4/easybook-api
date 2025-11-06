@@ -1,6 +1,7 @@
 package com.team4.easybook.domain.book.client.api
 
 import com.team4.easybook.domain.book.application.service.BookService
+import com.team4.easybook.domain.book.client.dto.request.RegisterBookContentRequest
 import com.team4.easybook.domain.book.client.dto.request.RegisterBookRequest
 import com.team4.easybook.domain.book.client.dto.request.UpdateProgressRequest
 import com.team4.easybook.domain.book.client.dto.response.BookContentResponse
@@ -36,10 +37,16 @@ class BookController(
     @GetMapping("/{bookId}")
     fun getBookById(
         @Parameter(description = "책 ID", required = true) @PathVariable bookId: Long,
-        @Parameter(description = "사용자 ID", required = false) @RequestParam(required = false, defaultValue = "1") userId: Long
     ): ResponseEntity<BookDetailResponse> {
-        val book = bookService.getBookById(bookId, userId)
+        val book = bookService.getBookById(bookId)
         return ResponseEntity.ok(book)
+    }
+
+    @Operation(summary = "책 내용 등록", description = "특정 페이지의 책 내용(원문)을 등록합니다.")
+    @PostMapping("/{bookId}/contents")
+    fun registerBookContent(@RequestBody request: RegisterBookContentRequest): ResponseEntity<Void> {
+        bookService.registerBookContent(request)
+        return ResponseEntity.ok().build()
     }
 
     @Operation(summary = "책 내용 조회", description = "특정 페이지의 책 내용을 조회합니다.")
