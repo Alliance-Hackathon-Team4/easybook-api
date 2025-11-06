@@ -42,8 +42,8 @@ class BookController(
         return ResponseEntity.ok(book)
     }
 
-    @Operation(summary = "책 내용 등록", description = "특정 페이지의 책 내용(원문)을 등록합니다.")
-    @PostMapping("/{bookId}/contents")
+    @Operation(summary = "책 내용 등록", description = "특정 페이지의 책 내용(원문)을 등록합니다. 자동으로 난이도 1~5 버전이 모두 생성됩니다.")
+    @PostMapping("/contents")
     fun registerBookContent(@RequestBody request: RegisterBookContentRequest): ResponseEntity<Void> {
         bookService.registerBookContent(request)
         return ResponseEntity.ok().build()

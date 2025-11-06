@@ -13,4 +13,5 @@ data class BookEntity(
     val title: String,
     val author: String,
     val totalPages: Int,
+    val imageUrl: String,
 )

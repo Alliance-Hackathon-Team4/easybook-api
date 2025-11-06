@@ -12,4 +12,6 @@ data class RegisterBookRequest(
 
     @Schema(description = "총 페이지 수", example = "96")
     val totalPages: Int,
+
+    val imageUrl: String,
 )

@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface BookContentJpaRepository : JpaRepository<BookContentEntity, Long> {
     fun findByBookIdAndPage(bookId: Long, page: Int): BookContentEntity?
+    fun findByBookIdAndPageAndReadingLevel(bookId: Long, page: Int, readingLevel: Int): BookContentEntity?
     fun findByBookId(bookId: Long): List<BookContentEntity>
 }
